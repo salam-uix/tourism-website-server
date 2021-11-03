@@ -34,6 +34,12 @@ async function run() {
             res.send(services);
         })
 
+        //Add New services API
+        app.post("/addNewServices", async (req, res) => {
+            const result = await servicesCollection.insertOne(req.body);
+            res.send(result);
+        });
+
         //GET Booking API
         app.get('/booking', async (req, res) => {
             const cursor = bookingCollection.find({});
