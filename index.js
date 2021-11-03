@@ -25,12 +25,50 @@ async function run() {
         await client.connect();
         const database = client.db('travelDaddy');
         const servicesCollection = database.collection('services')
+        const bookingCollection = database.collection('booking')
 
         //GET Services API
         app.get('/services', async (req, res) => {
             const cursor = servicesCollection.find({});
             const services = await cursor.toArray();
             res.send(services);
+        })
+
+        //GET Booking API
+        app.get('/booking', async (req, res) => {
+            const cursor = bookingCollection.find({});
+            const booking = await cursor.toArray();
+            res.send(booking);
+        })
+
+
+
+        // GET Single service
+        app.get('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('getting specific service', id);
+            const query = { _id: ObjectId(id) };
+            const service = await servicesCollection.findOne(query);
+            res.json(service);
+        })
+
+        //POST API
+        app.post('/services', async (req, res) => {
+            const service = req.body;
+            console.log('hit the post api', service);
+
+            const result = await servicesCollection.insertOne(service);
+            res.json(result)
+        });
+
+        //UPDATE API
+
+        // DELETE API
+        app.delete('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await servicesCollection.deleteOne(query);
+            res.json(result);
         })
     }
     finally {
