@@ -1,6 +1,7 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
 
 
@@ -27,12 +28,6 @@ async function run() {
         const servicesCollection = database.collection('services')
         const bookingCollection = database.collection('booking')
 
-        //GET Services API
-        app.get('/services', async (req, res) => {
-            const cursor = servicesCollection.find({});
-            const services = await cursor.toArray();
-            res.send(services);
-        })
 
         //Add New services API
         app.post("/addNewServices", async (req, res) => {
@@ -40,13 +35,28 @@ async function run() {
             res.send(result);
         });
 
-        //GET Booking API
-        app.get('/booking', async (req, res) => {
-            const cursor = bookingCollection.find({});
-            const booking = await cursor.toArray();
-            res.send(booking);
+        //GET Services API
+        app.get('/services', async (req, res) => {
+            const cursor = servicesCollection.find({});
+            const services = await cursor.toArray();
+            res.send(services);
         })
 
+        //GET Booking API
+        // app.get('/booking/:id', async (req, res) => {
+        //     const cursor = servicesCollection.find({ _id: ObjectId(req.params.id) });
+        //     const booking = await cursor.toArray();
+        //     res.send(booking);
+        // })
+
+        // get single product
+        app.get("/singleProduct/:id", async (req, res) => {
+            console.log(req.params.id)
+            const result = await servicesCollection
+                .find({ _id: ObjectId(req.params.id) })
+                .toArray();
+            res.send(result[0]);
+        });
 
 
         // GET Single service
