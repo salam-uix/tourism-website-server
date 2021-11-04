@@ -52,15 +52,6 @@ async function run() {
         });
 
 
-        // // GET Single service
-        // app.get('/singleProduct/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     console.log('getting specific service', id);
-        //     const query = { _id: ObjectId(id) };
-        //     const service = await servicesCollection.findOne(query);
-        //     res.json(service);
-        // })
-
         //POST API
         app.post('/services', async (req, res) => {
             const service = req.body;
@@ -70,7 +61,11 @@ async function run() {
             res.json(result)
         });
 
-        //UPDATE API
+        //Confirm order
+        app.post("/confirmOrder", async (req, res) => {
+            const result = await bookingCollection.insertOne(req.body);
+            res.send(result);
+        })
 
         // DELETE API
         app.delete('/services/:id', async (req, res) => {
