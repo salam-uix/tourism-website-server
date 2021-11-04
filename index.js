@@ -42,13 +42,6 @@ async function run() {
             res.send(services);
         })
 
-        //GET Booking API
-        // app.get('/booking/:id', async (req, res) => {
-        //     const cursor = servicesCollection.find({ _id: ObjectId(req.params.id) });
-        //     const booking = await cursor.toArray();
-        //     res.send(booking);
-        // })
-
         // get single product
         app.get("/singleProduct/:id", async (req, res) => {
             console.log(req.params.id)
@@ -59,14 +52,14 @@ async function run() {
         });
 
 
-        // GET Single service
-        app.get('/singleProduct/:id', async (req, res) => {
-            const id = req.params.id;
-            console.log('getting specific service', id);
-            const query = { _id: ObjectId(id) };
-            const service = await servicesCollection.findOne(query);
-            res.json(service);
-        })
+        // // GET Single service
+        // app.get('/singleProduct/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     console.log('getting specific service', id);
+        //     const query = { _id: ObjectId(id) };
+        //     const service = await servicesCollection.findOne(query);
+        //     res.json(service);
+        // })
 
         //POST API
         app.post('/services', async (req, res) => {
